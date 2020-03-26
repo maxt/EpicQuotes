@@ -1,0 +1,48 @@
+package ru.maxt.epic.controller;
+
+import com.github.benmanes.caffeine.cache.Caffeine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.caffeine.CaffeineCache;
+import org.springframework.web.bind.annotation.*;
+import ru.maxt.epic.components.ElvlCalculator;
+import ru.maxt.epic.dto.QuoteDto;
+
+import javax.validation.Valid;
+import java.util.Date;
+import java.util.Map;
+
+@RestController
+public class QuotesRestController {
+
+    private Logger log = LoggerFactory.getLogger(QuotesRestController.class);
+    @Autowired
+    private ElvlCalculator calculator;
+
+    @Autowired
+    private Cache elvlCache;
+
+    @GetMapping(path = "/test")
+    public String test() {
+        return new Date().toString();
+    }
+
+    @PostMapping(path = "/quote")
+    public void postQuote(@Valid @RequestBody QuoteDto q) {
+        log.info("/quote request with parameter {}", q);
+        calculator.processQuote(q);
+    }
+    @GetMapping(path = "/elvls")
+    @ResponseBody
+    public Map<Object,Object> getElvs(){
+        CaffeineCache cc = (CaffeineCache)elvlCache;
+        return cc.getNativeCache().asMap();
+    }
+    @GetMapping(path = "/elvl")
+    public String getElvl(@RequestParam(name = "isin") String isin){
+        CaffeineCache cc = (CaffeineCache)elvlCache;
+        return cc.get(isin).get().toString();
+    }
+}
