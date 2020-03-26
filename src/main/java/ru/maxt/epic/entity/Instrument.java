@@ -4,6 +4,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Introduce specific table for Instruments
+ * This approach will reduce amount of data
+ * which will be stored in database as
+ * all received quotes history.
+ *
+ */
 @Entity
 @Table(name = "instruments")
 public class Instrument implements Serializable {

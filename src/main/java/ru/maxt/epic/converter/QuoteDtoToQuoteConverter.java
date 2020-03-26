@@ -29,6 +29,7 @@ public class QuoteDtoToQuoteConverter implements Converter<QuoteDto, Quote> {
         q.setInstr(instr);
         q.setBid(source.getBid());
         q.setAsk(source.getAsk());
+        q.setTimestamp(source.getTimestamp());
         return q;
     }
 }

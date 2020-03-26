@@ -20,6 +20,8 @@ public class Quote implements Serializable {
     private BigDecimal bid;
     @Column(nullable = false)
     private BigDecimal ask;
+    @Column(nullable = false)
+    private Long timestamp;
 
     public Integer getId() {
         return id;
@@ -53,6 +55,14 @@ public class Quote implements Serializable {
         this.ask = ask;
     }
 
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,12 +71,13 @@ public class Quote implements Serializable {
         return Objects.equals(id, quote.id) &&
                 Objects.equals(instr, quote.instr) &&
                 Objects.equals(bid, quote.bid) &&
-                Objects.equals(ask, quote.ask);
+                Objects.equals(ask, quote.ask) &&
+                Objects.equals(timestamp, quote.timestamp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, instr, bid, ask);
+        return Objects.hash(id, instr, bid, ask, timestamp);
     }
 
     @Override
@@ -76,6 +87,7 @@ public class Quote implements Serializable {
                 ", instr=" + instr +
                 ", bid=" + bid +
                 ", ask=" + ask +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

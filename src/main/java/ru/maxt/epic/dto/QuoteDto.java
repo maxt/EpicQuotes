@@ -5,6 +5,7 @@ import ru.maxt.epic.dto.validation.ValidQuoteDto;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @ValidQuoteDto
 public class QuoteDto implements Serializable {
@@ -16,8 +17,10 @@ public class QuoteDto implements Serializable {
 
     private BigDecimal ask;
 
-    public QuoteDto(){
+    private long timestamp;
 
+    public QuoteDto(){
+        timestamp = new Date().getTime();
     }
 
     public QuoteDto(String isin, double bid, double ask) {
@@ -50,12 +53,21 @@ public class QuoteDto implements Serializable {
         this.ask = ask;
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public String toString() {
         return "QuoteDto{" +
                 "isin='" + isin + '\'' +
                 ", bid=" + bid +
                 ", ask=" + ask +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }
